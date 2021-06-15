@@ -3,7 +3,7 @@ import GameCore
 import SwiftUI
 
 public struct GameView: View {
-  let store: Store<GameState, GameAction>
+  let store: ComposableStore<GameState, GameAction>
 
   struct ViewState: Equatable {
     var board: [[String]]
@@ -24,7 +24,7 @@ public struct GameView: View {
     }
   }
 
-  public init(store: Store<GameState, GameAction>) {
+  public init(store: ComposableStore<GameState, GameAction>) {
     self.store = store
   }
 
@@ -96,7 +96,7 @@ struct Game_Previews: PreviewProvider {
   static var previews: some View {
     NavigationView {
       GameView(
-        store: Store(
+        store: ComposableStore(
           initialState: GameState(oPlayerName: "Blob Jr.", xPlayerName: "Blob Sr."),
           reducer: gameReducer,
           environment: GameEnvironment()

@@ -6,8 +6,8 @@ import SwiftUI
 extension IfLetStore {
   @available(*, deprecated, message: "'else' now takes a view builder closure")
   public init<IfContent, ElseContent>(
-    _ store: Store<State?, Action>,
-    @ViewBuilder then ifContent: @escaping (Store<State, Action>) -> IfContent,
+    _ store: ComposableStore<State?, Action>,
+    @ViewBuilder then ifContent: @escaping (ComposableStore<State, Action>) -> IfContent,
     else elseContent: @escaping @autoclosure () -> ElseContent
   ) where Content == _ConditionalContent<IfContent, ElseContent> {
     self.init(store, then: ifContent, else: elseContent)
@@ -111,13 +111,13 @@ extension AlertState.Button {
 }
 
 // NB: Deprecated after 0.9.0:
-
-extension Store {
+/*
+extension ComposableStore {
   @_disfavoredOverload
   @available(*, deprecated, renamed: "publisherScope(state:)")
   public func scope<P: Publisher, LocalState>(
-    state toLocalState: @escaping (AnyPublisher<State, Never>) -> P
-  ) -> AnyPublisher<Store<LocalState, Action>, Never>
+    state toLocalState: @escaping (AnyPublisher<ComposableStore, Never>) -> P
+  ) -> AnyPublisher<ComposableStore<LocalState, Action>, Never>
   where P.Output == LocalState, P.Failure == Never {
     self.publisherScope(state: toLocalState)
   }
@@ -125,13 +125,13 @@ extension Store {
   @_disfavoredOverload
   @available(*, deprecated, renamed: "publisherScope(state:action:)")
   public func scope<P: Publisher, LocalState, LocalAction>(
-    state toLocalState: @escaping (AnyPublisher<State, Never>) -> P,
+    state toLocalState: @escaping (AnyPublisher<ComposableStore, Never>) -> P,
     action fromLocalAction: @escaping (LocalAction) -> Action
-  ) -> AnyPublisher<Store<LocalState, LocalAction>, Never>
+  ) -> AnyPublisher<ComposableStore<LocalState, LocalAction>, Never>
   where P.Output == LocalState, P.Failure == Never {
     self.publisherScope(state: toLocalState, action: fromLocalAction)
   }
-}
+}*/
 
 // NB: Deprecated after 0.6.0:
 

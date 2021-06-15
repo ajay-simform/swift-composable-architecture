@@ -176,7 +176,7 @@ extension View {
   ///     as when an alert is automatically dismissed by the system. Use this action to `nil` out
   ///     the associated alert state.
   public func alert<Action>(
-    _ store: Store<AlertState<Action>?, Action>,
+    _ store: ComposableStore<AlertState<Action>?, Action>,
     dismiss: Action
   ) -> some View {
 

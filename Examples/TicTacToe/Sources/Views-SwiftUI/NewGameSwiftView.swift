@@ -6,7 +6,7 @@ import SwiftUI
 import TicTacToeCommon
 
 public struct NewGameView: View {
-  let store: Store<NewGameState, NewGameAction>
+  let store: ComposableStore<NewGameState, NewGameAction>
 
   struct ViewState: Equatable {
     var isGameActive: Bool
@@ -30,7 +30,7 @@ public struct NewGameView: View {
     case xPlayerNameChanged(String)
   }
 
-  public init(store: Store<NewGameState, NewGameAction>) {
+  public init(store: ComposableStore<NewGameState, NewGameAction>) {
     self.store = store
   }
 
@@ -106,7 +106,7 @@ struct NewGame_Previews: PreviewProvider {
   static var previews: some View {
     NavigationView {
       NewGameView(
-        store: Store(
+        store: ComposableStore(
           initialState: NewGameState(),
           reducer: newGameReducer,
           environment: NewGameEnvironment()

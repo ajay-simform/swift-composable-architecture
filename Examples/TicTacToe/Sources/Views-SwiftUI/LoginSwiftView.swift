@@ -7,7 +7,7 @@ import TwoFactorCore
 import TwoFactorSwiftUI
 
 public struct LoginView: View {
-  let store: Store<LoginState, LoginAction>
+  let store: ComposableStore<LoginState, LoginAction>
 
   struct ViewState: Equatable {
     var alert: AlertState<LoginAction>?
@@ -37,7 +37,7 @@ public struct LoginView: View {
     case twoFactorDismissed
   }
 
-  public init(store: Store<LoginState, LoginAction>) {
+  public init(store: ComposableStore<LoginState, LoginAction>) {
     self.store = store
   }
 
@@ -122,7 +122,7 @@ struct LoginView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationView {
       LoginView(
-        store: Store(
+        store: ComposableStore(
           initialState: LoginState(),
           reducer: loginReducer,
           environment: LoginEnvironment(

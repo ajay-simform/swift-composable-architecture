@@ -4,7 +4,7 @@ import NewGameCore
 import UIKit
 
 class NewGameViewController: UIViewController {
-  let store: Store<NewGameState, NewGameAction>
+  let store: ComposableStore<NewGameState, NewGameAction>
   let viewStore: ViewStore<ViewState, ViewAction>
   private var cancellables: Set<AnyCancellable> = []
 
@@ -30,7 +30,7 @@ class NewGameViewController: UIViewController {
     case xPlayerNameChanged(String?)
   }
 
-  init(store: Store<NewGameState, NewGameAction>) {
+  init(store: ComposableStore<NewGameState, NewGameAction>) {
     self.store = store
     self.viewStore = ViewStore(store.scope(state: ViewState.init, action: NewGameAction.init))
     super.init(nibName: nil, bundle: nil)

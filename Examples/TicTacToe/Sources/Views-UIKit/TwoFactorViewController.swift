@@ -5,7 +5,7 @@ import TwoFactorCore
 import UIKit
 
 public final class TwoFactorViewController: UIViewController {
-  let store: Store<TwoFactorState, TwoFactorAction>
+  let store: ComposableStore<TwoFactorState, TwoFactorAction>
   let viewStore: ViewStore<ViewState, ViewAction>
   private var cancellables: Set<AnyCancellable> = []
 
@@ -29,7 +29,7 @@ public final class TwoFactorViewController: UIViewController {
     case loginButtonTapped
   }
 
-  public init(store: Store<TwoFactorState, TwoFactorAction>) {
+  public init(store: ComposableStore<TwoFactorState, TwoFactorAction>) {
     self.store = store
     self.viewStore = ViewStore(store.scope(state: ViewState.init, action: TwoFactorAction.init))
     super.init(nibName: nil, bundle: nil)

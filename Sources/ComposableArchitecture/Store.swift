@@ -6,7 +6,7 @@ import Foundation
 ///
 /// You will typically construct a single one of these at the root of your application, and then use
 /// the ``scope(state:action:)-9iai9`` method to derive more focused stores that can be passed to subviews.
-public final class Store<State, Action> {
+public final class ComposableStore<State, Action> {
   var state: CurrentValueSubject<State, Never>
   var effectCancellables: [UUID: AnyCancellable] = [:]
   private var isSending = false
@@ -162,8 +162,8 @@ public final class Store<State, Action> {
   public func scope<LocalState, LocalAction>(
     state toLocalState: @escaping (State) -> LocalState,
     action fromLocalAction: @escaping (LocalAction) -> Action
-  ) -> Store<LocalState, LocalAction> {
-    let localStore = Store<LocalState, LocalAction>(
+  ) -> ComposableStore<LocalState, LocalAction> {
+    let localStore = ComposableStore<LocalState, LocalAction>(
       initialState: toLocalState(self.state.value),
       reducer: .init { localState, localAction, _ in
         self.send(fromLocalAction(localAction))
@@ -183,7 +183,7 @@ public final class Store<State, Action> {
   /// - Returns: A new store with its domain (state and action) transformed.
   public func scope<LocalState>(
     state toLocalState: @escaping (State) -> LocalState
-  ) -> Store<LocalState, Action> {
+  ) -> ComposableStore<LocalState, Action> {
     self.scope(state: toLocalState, action: { $0 })
   }
 
@@ -197,7 +197,7 @@ public final class Store<State, Action> {
   public func publisherScope<P: Publisher, LocalState, LocalAction>(
     state toLocalState: @escaping (AnyPublisher<State, Never>) -> P,
     action fromLocalAction: @escaping (LocalAction) -> Action
-  ) -> AnyPublisher<Store<LocalState, LocalAction>, Never>
+  ) -> AnyPublisher<ComposableStore<LocalState, LocalAction>, Never>
   where P.Output == LocalState, P.Failure == Never {
 
     func extractLocalState(_ state: State) -> LocalState? {
@@ -209,7 +209,7 @@ public final class Store<State, Action> {
 
     return toLocalState(self.state.eraseToAnyPublisher())
       .map { localState in
-        let localStore = Store<LocalState, LocalAction>(
+        let localStore = ComposableStore<LocalState, LocalAction>(
           initialState: localState,
           reducer: .init { localState, localAction, _ in
             self.send(fromLocalAction(localAction))
@@ -237,7 +237,7 @@ public final class Store<State, Action> {
   ///   transformed.
   public func publisherScope<P: Publisher, LocalState>(
     state toLocalState: @escaping (AnyPublisher<State, Never>) -> P
-  ) -> AnyPublisher<Store<LocalState, Action>, Never>
+  ) -> AnyPublisher<ComposableStore<LocalState, Action>, Never>
   where P.Output == LocalState, P.Failure == Never {
     self.publisherScope(state: toLocalState, action: { $0 })
   }
@@ -286,12 +286,12 @@ public final class Store<State, Action> {
   }
 
   /// Returns a "stateless" store by erasing state to `Void`.
-  public var stateless: Store<Void, Action> {
+  public var stateless: ComposableStore<Void, Action> {
     self.scope(state: { _ in () })
   }
 
   /// Returns an "actionless" store by erasing action to `Never`.
-  public var actionless: Store<State, Never> {
+  public var actionless: ComposableStore<State, Never> {
     func absurd<A>(_ never: Never) -> A {}
     return self.scope(state: { $0 }, action: absurd)
   }

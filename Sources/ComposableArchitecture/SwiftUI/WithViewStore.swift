@@ -43,7 +43,7 @@ extension WithViewStore: View where Content: View {
   ///     equal, repeat view computations are removed,
   ///   - content: A function that can generate content from a view store.
   public init(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     removeDuplicates isDuplicate: @escaping (State, State) -> Bool,
     @ViewBuilder content: @escaping (ViewStore<State, Action>) -> Content
   ) {
@@ -74,7 +74,7 @@ extension WithViewStore where Content: View, State: Equatable {
   ///   - store: A store of equatable state.
   ///   - content: A function that can generate content from a view store.
   public init(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     @ViewBuilder content: @escaping (ViewStore<State, Action>) -> Content
   ) {
     self.init(store, removeDuplicates: ==, content: content)
@@ -89,7 +89,7 @@ extension WithViewStore where Content: View, State == Void {
   ///   - store: A store of equatable state.
   ///   - content: A function that can generate content from a view store.
   public init(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     @ViewBuilder content: @escaping (ViewStore<State, Action>) -> Content
   ) {
     self.init(store, removeDuplicates: ==, content: content)
@@ -120,7 +120,7 @@ extension WithViewStore: DynamicViewContent where State: Collection, Content: Dy
     ///     equal, repeat view computations are removed,
     ///   - content: A function that can generate content from a view store.
     public init(
-      _ store: Store<State, Action>,
+      _ store: ComposableStore<State, Action>,
       removeDuplicates isDuplicate: @escaping (State, State) -> Bool,
       @SceneBuilder content: @escaping (ViewStore<State, Action>) -> Content
     ) {
@@ -152,7 +152,7 @@ extension WithViewStore: DynamicViewContent where State: Collection, Content: Dy
     ///   - store: A store of equatable state.
     ///   - content: A function that can generate content from a view store.
     public init(
-      _ store: Store<State, Action>,
+      _ store: ComposableStore<State, Action>,
       @SceneBuilder content: @escaping (ViewStore<State, Action>) -> Content
     ) {
       self.init(store, removeDuplicates: ==, content: content)
@@ -168,7 +168,7 @@ extension WithViewStore: DynamicViewContent where State: Collection, Content: Dy
     ///   - store: A store of equatable state.
     ///   - content: A function that can generate content from a view store.
     public init(
-      _ store: Store<State, Action>,
+      _ store: ComposableStore<State, Action>,
       @SceneBuilder content: @escaping (ViewStore<State, Action>) -> Content
     ) {
       self.init(store, removeDuplicates: ==, content: content)

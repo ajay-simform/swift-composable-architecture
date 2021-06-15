@@ -34,7 +34,7 @@ import SwiftUI
 ///
 public struct IfLetStore<State, Action, Content>: View where Content: View {
   private let content: (ViewStore<State?, Action>) -> Content
-  private let store: Store<State?, Action>
+  private let store: ComposableStore<State?, Action>
 
   /// Initializes an ``IfLetStore`` view that computes content depending on if a store of optional
   /// state is `nil` or non-`nil`.
@@ -45,8 +45,8 @@ public struct IfLetStore<State, Action, Content>: View where Content: View {
   ///     is visible only when the optional state is non-`nil`.
   ///   - elseContent: A view that is only visible when the optional state is `nil`.
   public init<IfContent, ElseContent>(
-    _ store: Store<State?, Action>,
-    @ViewBuilder then ifContent: @escaping (Store<State, Action>) -> IfContent,
+    _ store: ComposableStore<State?, Action>,
+    @ViewBuilder then ifContent: @escaping (ComposableStore<State, Action>) -> IfContent,
     @ViewBuilder else elseContent: @escaping () -> ElseContent
   ) where Content == _ConditionalContent<IfContent, ElseContent> {
     self.store = store
@@ -67,8 +67,8 @@ public struct IfLetStore<State, Action, Content>: View where Content: View {
   ///   - ifContent: A function that is given a store of non-optional state and returns a view that
   ///     is visible only when the optional state is non-`nil`.
   public init<IfContent>(
-    _ store: Store<State?, Action>,
-    @ViewBuilder then ifContent: @escaping (Store<State, Action>) -> IfContent
+    _ store: ComposableStore<State?, Action>,
+    @ViewBuilder then ifContent: @escaping (ComposableStore<State, Action>) -> IfContent
   ) where Content == IfContent? {
     self.store = store
     self.content = { viewStore in

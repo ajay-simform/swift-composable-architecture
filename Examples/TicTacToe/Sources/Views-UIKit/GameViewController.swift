@@ -4,7 +4,7 @@ import GameCore
 import UIKit
 
 public final class GameViewController: UIViewController {
-  let store: Store<GameState, GameAction>
+  let store: ComposableStore<GameState, GameAction>
   let viewStore: ViewStore<ViewState, GameAction>
   private var cancellables: Set<AnyCancellable> = []
 
@@ -27,7 +27,7 @@ public final class GameViewController: UIViewController {
     }
   }
 
-  init(store: Store<GameState, GameAction>) {
+  init(store: ComposableStore<GameState, GameAction>) {
     self.store = store
     self.viewStore = ViewStore(store.scope(state: ViewState.init))
     super.init(nibName: nil, bundle: nil)

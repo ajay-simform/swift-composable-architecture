@@ -5,7 +5,7 @@ import SwiftUI
 import UIKit
 
 struct UIKitAppView: UIViewControllerRepresentable {
-  let store: Store<AppState, AppAction>
+  let store: ComposableStore<AppState, AppAction>
 
   func makeUIViewController(context: Context) -> AppViewController {
     AppViewController(store: store)
@@ -20,10 +20,10 @@ struct UIKitAppView: UIViewControllerRepresentable {
 }
 
 class AppViewController: UINavigationController {
-  let store: Store<AppState, AppAction>
+  let store: ComposableStore<AppState, AppAction>
   private var cancellables: Set<AnyCancellable> = []
 
-  init(store: Store<AppState, AppAction>) {
+  init(store: ComposableStore<AppState, AppAction>) {
     self.store = store
     super.init(nibName: nil, bundle: nil)
   }

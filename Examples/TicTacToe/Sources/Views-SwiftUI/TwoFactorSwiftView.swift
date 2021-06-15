@@ -5,7 +5,7 @@ import TicTacToeCommon
 import TwoFactorCore
 
 public struct TwoFactorView: View {
-  let store: Store<TwoFactorState, TwoFactorAction>
+  let store: ComposableStore<TwoFactorState, TwoFactorAction>
 
   struct ViewState: Equatable {
     var alert: AlertState<TwoFactorAction>?
@@ -29,7 +29,7 @@ public struct TwoFactorView: View {
     case submitButtonTapped
   }
 
-  public init(store: Store<TwoFactorState, TwoFactorAction>) {
+  public init(store: ComposableStore<TwoFactorState, TwoFactorAction>) {
     self.store = store
   }
 
@@ -88,7 +88,7 @@ struct TwoFactorView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationView {
       TwoFactorView(
-        store: Store(
+        store: ComposableStore(
           initialState: TwoFactorState(token: "deadbeef"),
           reducer: twoFactorReducer,
           environment: TwoFactorEnvironment(

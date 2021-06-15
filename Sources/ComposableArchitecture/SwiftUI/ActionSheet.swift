@@ -195,7 +195,7 @@ extension View {
   @available(tvOS 13, *)
   @available(watchOS 6, *)
   public func actionSheet<Action>(
-    _ store: Store<ActionSheetState<Action>?, Action>,
+    _ store: ComposableStore<ActionSheetState<Action>?, Action>,
     dismiss: Action
   ) -> some View {
 

@@ -1,6 +1,6 @@
 import Combine
 
-extension Store {
+extension ComposableStore {
   /// Calls one of two closures depending on whether a store's optional state is `nil` or not, and
   /// whenever this condition changes for as long as the cancellable lives.
   ///
@@ -46,7 +46,7 @@ extension Store {
   /// - Returns: A cancellable that maintains a subscription to updates whenever the store's state
   ///   goes from `nil` to non-`nil` and vice versa, so that the caller can react to these changes.
   public func ifLet<Wrapped>(
-    then unwrap: @escaping (Store<Wrapped, Action>) -> Void,
+    then unwrap: @escaping (ComposableStore<Wrapped, Action>) -> Void,
     else: @escaping () -> Void = {}
   ) -> Cancellable where State == Wrapped? {
     let elseCancellable =

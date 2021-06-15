@@ -26,7 +26,7 @@ enum GameType: Identifiable {
 }
 
 struct RootView: View {
-  let store = Store(
+  let store = ComposableStore(
     initialState: AppState(),
     reducer: appReducer.debug(),
     environment: AppEnvironment(

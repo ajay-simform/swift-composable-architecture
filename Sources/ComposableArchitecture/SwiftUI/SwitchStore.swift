@@ -45,11 +45,11 @@ import SwiftUI
 ///   case of an enum into reducers that operate on the entire enum.
 ///
 public struct SwitchStore<State, Action, Content>: View where Content: View {
-  public let store: Store<State, Action>
+  public let store: ComposableStore<State, Action>
   public let content: () -> Content
 
   init(
-    store: Store<State, Action>,
+    store: ComposableStore<State, Action>,
     @ViewBuilder content: @escaping () -> Content
   ) {
     self.store = store
@@ -68,7 +68,7 @@ where Content: View {
   @EnvironmentObject private var store: StoreObservableObject<GlobalState, GlobalAction>
   public let toLocalState: (GlobalState) -> LocalState?
   public let fromLocalAction: (LocalAction) -> GlobalAction
-  public let content: (Store<LocalState, LocalAction>) -> Content
+  public let content: (ComposableStore<LocalState, LocalAction>) -> Content
 
   /// Initializes a `CaseLet` view that computes content depending on if a store of enum state
   /// matches a particular case.
@@ -81,7 +81,7 @@ where Content: View {
   public init(
     state toLocalState: @escaping (GlobalState) -> LocalState?,
     action fromLocalAction: @escaping (LocalAction) -> GlobalAction,
-    @ViewBuilder then content: @escaping (Store<LocalState, LocalAction>) -> Content
+    @ViewBuilder then content: @escaping (ComposableStore<LocalState, LocalAction>) -> Content
   ) {
     self.toLocalState = toLocalState
     self.fromLocalAction = fromLocalAction
@@ -123,7 +123,7 @@ public struct Default<Content>: View where Content: View {
 
 extension SwitchStore {
   public init<State1, Action1, Content1, DefaultContent>(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     @ViewBuilder content: @escaping () -> TupleView<
       (
         CaseLet<State, Action, State1, Action1, Content1>,
@@ -154,7 +154,7 @@ extension SwitchStore {
   }
 
   public init<State1, Action1, Content1>(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     file: StaticString = #file,
     line: UInt = #line,
     @ViewBuilder content: @escaping () -> CaseLet<State, Action, State1, Action1, Content1>
@@ -176,7 +176,7 @@ extension SwitchStore {
   }
 
   public init<State1, Action1, Content1, State2, Action2, Content2, DefaultContent>(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     @ViewBuilder content: @escaping () -> TupleView<
       (
         CaseLet<State, Action, State1, Action1, Content1>,
@@ -213,7 +213,7 @@ extension SwitchStore {
   }
 
   public init<State1, Action1, Content1, State2, Action2, Content2>(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     file: StaticString = #file,
     line: UInt = #line,
     @ViewBuilder content: @escaping () -> TupleView<
@@ -250,7 +250,7 @@ extension SwitchStore {
     State3, Action3, Content3,
     DefaultContent
   >(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     @ViewBuilder content: @escaping () -> TupleView<
       (
         CaseLet<State, Action, State1, Action1, Content1>,
@@ -293,7 +293,7 @@ extension SwitchStore {
   }
 
   public init<State1, Action1, Content1, State2, Action2, Content2, State3, Action3, Content3>(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     file: StaticString = #file,
     line: UInt = #line,
     @ViewBuilder content: @escaping () -> TupleView<
@@ -336,7 +336,7 @@ extension SwitchStore {
     State4, Action4, Content4,
     DefaultContent
   >(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     @ViewBuilder content: @escaping () -> TupleView<
       (
         CaseLet<State, Action, State1, Action1, Content1>,
@@ -390,7 +390,7 @@ extension SwitchStore {
     State3, Action3, Content3,
     State4, Action4, Content4
   >(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     file: StaticString = #file,
     line: UInt = #line,
     @ViewBuilder content: @escaping () -> TupleView<
@@ -439,7 +439,7 @@ extension SwitchStore {
     State5, Action5, Content5,
     DefaultContent
   >(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     @ViewBuilder content: @escaping () -> TupleView<
       (
         CaseLet<State, Action, State1, Action1, Content1>,
@@ -500,7 +500,7 @@ extension SwitchStore {
     State4, Action4, Content4,
     State5, Action5, Content5
   >(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     file: StaticString = #file,
     line: UInt = #line,
     @ViewBuilder content: @escaping () -> TupleView<
@@ -593,9 +593,9 @@ public struct _ExhaustivityCheckView<State, Action>: View {
 }
 
 private class StoreObservableObject<State, Action>: ObservableObject {
-  let wrappedValue: Store<State, Action>
+  let wrappedValue: ComposableStore<State, Action>
 
-  init(store: Store<State, Action>) {
+  init(store: ComposableStore<State, Action>) {
     self.wrappedValue = store
   }
 }

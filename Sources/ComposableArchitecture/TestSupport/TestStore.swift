@@ -176,7 +176,7 @@
     private var receivedActions: [(action: Action, state: State)] = []
     private let reducer: Reducer<State, Action, Environment>
     private var snapshotState: State
-    private var store: Store<State, TestAction>!
+    private var store: ComposableStore<State, TestAction>!
     private let toLocalState: (State) -> LocalState
 
     private init(
@@ -196,7 +196,7 @@
       self.snapshotState = initialState
       self.toLocalState = toLocalState
 
-      self.store = Store(
+      self.store = ComposableStore(
         initialState: initialState,
         reducer: Reducer<State, TestAction, Void> { [unowned self] state, action, _ in
           let effects: Effect<Action, Never>

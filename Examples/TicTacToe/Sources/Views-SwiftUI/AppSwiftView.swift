@@ -6,9 +6,9 @@ import SwiftUI
 import TicTacToeCommon
 
 public struct AppView: View {
-  let store: Store<AppState, AppAction>
+  let store: ComposableStore<AppState, AppAction>
 
-  public init(store: Store<AppState, AppAction>) {
+  public init(store: ComposableStore<AppState, AppAction>) {
     self.store = store
   }
 

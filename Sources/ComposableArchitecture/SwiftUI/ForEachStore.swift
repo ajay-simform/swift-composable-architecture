@@ -82,9 +82,9 @@ where Data: Collection, ID: Hashable, Content: View {
   ///   - id: A key path identifying an element.
   ///   - content: A function that can generate content given a store of an element.
   public init<EachContent>(
-    _ store: Store<Data, (Data.Index, EachAction)>,
+    _ store: ComposableStore<Data, (Data.Index, EachAction)>,
     id: KeyPath<EachState, ID>,
-    @ViewBuilder content: @escaping (Store<EachState, EachAction>) -> EachContent
+    @ViewBuilder content: @escaping (ComposableStore<EachState, EachAction>) -> EachContent
   )
   where
     Data == [EachState],
@@ -116,8 +116,8 @@ where Data: Collection, ID: Hashable, Content: View {
   ///   - store: A store on an array of data and an indexed action.
   ///   - content: A function that can generate content given a store of an element.
   public init<EachContent>(
-    _ store: Store<Data, (Data.Index, EachAction)>,
-    @ViewBuilder content: @escaping (Store<EachState, EachAction>) -> EachContent
+    _ store: ComposableStore<Data, (Data.Index, EachAction)>,
+    @ViewBuilder content: @escaping (ComposableStore<EachState, EachAction>) -> EachContent
   )
   where
     Data == [EachState],
@@ -138,8 +138,8 @@ where Data: Collection, ID: Hashable, Content: View {
   ///   - store: A store on an identified array of data and an identified action.
   ///   - content: A function that can generate content given a store of an element.
   public init<EachContent: View>(
-    _ store: Store<IdentifiedArray<ID, EachState>, (ID, EachAction)>,
-    @ViewBuilder content: @escaping (Store<EachState, EachAction>) -> EachContent
+    _ store: ComposableStore<IdentifiedArray<ID, EachState>, (ID, EachAction)>,
+    @ViewBuilder content: @escaping (ComposableStore<EachState, EachAction>) -> EachContent
   )
   where
     EachContent: View,

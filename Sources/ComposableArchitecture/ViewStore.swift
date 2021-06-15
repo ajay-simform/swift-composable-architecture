@@ -62,7 +62,7 @@ public final class ViewStore<State, Action>: ObservableObject {
   ///   - isDuplicate: A function to determine when two `State` values are equal. When values are
   ///     equal, repeat view computations are removed.
   public init(
-    _ store: Store<State, Action>,
+    _ store: ComposableStore<State, Action>,
     removeDuplicates isDuplicate: @escaping (State, State) -> Bool
   ) {
     let publisher = store.state.removeDuplicates(by: isDuplicate)
@@ -237,13 +237,13 @@ public final class ViewStore<State, Action>: ObservableObject {
 }
 
 extension ViewStore where State: Equatable {
-  public convenience init(_ store: Store<State, Action>) {
+  public convenience init(_ store: ComposableStore<State, Action>) {
     self.init(store, removeDuplicates: ==)
   }
 }
 
 extension ViewStore where State == Void {
-  public convenience init(_ store: Store<Void, Action>) {
+  public convenience init(_ store: ComposableStore<Void, Action>) {
     self.init(store, removeDuplicates: ==)
   }
 }
